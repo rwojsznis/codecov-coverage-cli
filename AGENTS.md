@@ -36,7 +36,7 @@ Unit tests live in `#[cfg(test)] mod tests` next to the code. CLI-level tests
 live in `tests/`. `tests/common/mod.rs` has the mock Codecov server (a
 `TcpListener` on a thread, no extra crates) and the temporary git repository.
 
-## Workflow — do it in this order
+## Workflow - do it in this order
 
 1. **Write the failing test first.** Before any implementation, add a test that
    fails for the reason you expect. Run it and *read the failure*.

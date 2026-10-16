@@ -160,3 +160,16 @@ fn a_failed_request_prints_nothing_and_exits_1() {
     assert_eq!(run.stdout, "");
     assert!(run.stderr.contains("401 Unauthorized"), "{}", run.stderr);
 }
+
+#[test]
+fn a_fully_covered_repository_prints_only_the_header() {
+    let dir = Dir::new("all-covered", true);
+    let mock = Mock::always(
+        r#"{"files":[{"name":"a.rs","totals":{"lines":2,"hits":2,"coverage":100.0},"line_coverage":[[1,0],[2,0]]}]}"#,
+    );
+    let run = run(&dir.root, &mock.url, &["-a"]);
+    assert_eq!(
+        run.stdout,
+        "default branch: 100% overall (2/2 lines hit), 0 of 1 files with missing coverage\n"
+    );
+}

@@ -4,7 +4,7 @@
 [![CI](https://github.com/rwojsznis/codecov-coverage-cli/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rwojsznis/codecov-coverage-cli/actions/workflows/ci.yml?query=branch%3Amain)
 
 > [!NOTE]
-> tldr: Ask Codecov which lines are not covered — for a file, for the whole repository, or for only the lines your branch changed. Made for coding agents: one binary, short output, no MCP server.
+> tldr: Ask Codecov which lines are not covered - for a file, for the whole repository, or for only the lines your branch changed. Made for coding agents: one binary, short output, no MCP server.
 
 ```bash
 $ codecov-coverage-cli --diff origin/main
@@ -42,7 +42,7 @@ cargo install --locked --git https://github.com/rwojsznis/codecov-coverage-cli
 
 | Variable | Flag | |
 |---|---|---|
-| `CODECOV_AUTH_TOKEN` | — | Codecov API token (required). Create one in Codecov under *Settings → Access*. |
+| `CODECOV_AUTH_TOKEN` | - | Codecov API token (required). Create one in Codecov under *Settings → Access*. |
 | `CODECOV_SERVICE` | `--service` | `github`, `gitlab`, `bitbucket`, or their `_enterprise` / `_server` form |
 | `CODECOV_OWNER` | `--owner` | user, organization or group (GitLab subgroups: `group/sub`) |
 | `CODECOV_REPO` | `--repo` | repository name |
@@ -80,7 +80,7 @@ src/index.ts: 50% (5/10 lines hit, 3 missed, 2 partial)
 
 ### Patch coverage: only the lines a branch changed
 
-`--diff <BASE>` runs `git diff <BASE>...<head>` locally and keeps only the added or modified lines that Codecov counts as coverable — the same question as Codecov's patch coverage.
+`--diff <BASE>` runs `git diff <BASE>...<head>` locally and keeps only the added or modified lines that Codecov counts as coverable - the same question as Codecov's patch coverage.
 
 The head commit is `HEAD`, or the commit that `--sha` / `--branch` names in the local repository (`--branch` falls back to `origin/<branch>`). The tool fetches the report for that exact commit, so the line numbers match the diff. CI must have uploaded coverage for it; if not, the tool tells you and exits with 1.
 

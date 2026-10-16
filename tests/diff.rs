@@ -242,3 +242,28 @@ fn the_users_git_diff_settings_do_not_change_the_parse() {
         run.stdout
     );
 }
+
+#[test]
+fn sha_or_a_local_branch_names_the_head_instead_of_head() {
+    let (dir, head) = repository("diff-head");
+    dir.git(&["checkout", "--quiet", "main"]);
+    let mock = codecov(&head);
+    for args in [
+        ["-d", "main", "--sha", &head[..12]],
+        ["-d", "main", "--branch", "feature"],
+    ] {
+        let run = run(&dir.root, &mock.url, &args);
+        assert_eq!(run.code, 0, "{args:?}: {run:?}");
+        assert!(
+            run.stdout.contains("3 of 4 changed files"),
+            "{}",
+            run.stdout
+        );
+    }
+    // A short SHA reaches Codecov as the full one.
+    assert!(
+        mock.requests()
+            .iter()
+            .all(|r| r.query.get("sha") == Some(&head))
+    );
+}
