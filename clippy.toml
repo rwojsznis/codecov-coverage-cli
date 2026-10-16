@@ -1,0 +1,6 @@
+# The tests are full of `unwrap` and `expect`, and a panicking test is a failing
+# test. The three panic-family lints in `src/lib.rs` and `src/main.rs` are about
+# the shipped code.
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true
+allow-panic-in-tests = true
