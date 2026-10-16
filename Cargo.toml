@@ -1,0 +1,61 @@
+[package]
+name = "codecov-coverage-cli"
+# Internal Cargo version. Release binaries get their version from the Git tag.
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.99"
+description = "Fetch Codecov line coverage from the command line: per file, per repository, or for the lines a branch changed"
+license = "MIT"
+repository = "https://github.com/rwojsznis/codecov-coverage-cli"
+publish = false
+readme = "README.md"
+keywords = ["codecov", "coverage", "cli", "agents"]
+categories = ["command-line-utilities", "development-tools"]
+
+[dependencies]
+clap = { version = "4.6.7", features = ["derive", "env"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+ureq = "3.4.2"
+
+[lib]
+name = "codecov_coverage_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "codecov-coverage-cli"
+path = "src/main.rs"
+
+# macOS's default `unpacked` leaves a .o per codegen unit that Cargo never deletes; `debug = 2` if a debugger needs more than line numbers.
+[profile.dev]
+debug = "line-tables-only"
+split-debuginfo = "packed"
+
+[profile.dev.package."*"]
+debug = false
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = "symbols"
+
+# Kept in the manifest rather than in the CI command line, so a local `cargo
+# clippy` says the same thing CI does. The three panic-family restriction lints
+# live in `src/lib.rs` and `src/main.rs` instead, because they are about the
+# shipped code and the tests are full of `unwrap`.
+[lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+unreachable_pub = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+# Cosmetic: Codecov's field names are not Rust items.
+doc_markdown = "allow"
+# Nothing here is a builder.
+must_use_candidate = "allow"
+# The text output is built by pushing; `write!` into a `String` cannot fail,
+# so the alternative is an `unwrap` that `clippy::unwrap_used` then forbids.
+format_push_string = "allow"
+# clap needs one `bool` per flag, and every field is read by name.
+struct_excessive_bools = "allow"
