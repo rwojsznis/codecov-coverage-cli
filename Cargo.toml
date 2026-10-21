@@ -3,7 +3,7 @@ name = "codecov-coverage-cli"
 # Internal Cargo version. Release binaries get their version from the Git tag.
 version = "0.0.0"
 edition = "2024"
-rust-version = "1.99"
+rust-version = "1.99.1"
 description = "Fetch Codecov line coverage from the command line: per file, per repository, or for the lines a branch changed"
 license = "MIT"
 repository = "https://github.com/rwojsznis/codecov-coverage-cli"
